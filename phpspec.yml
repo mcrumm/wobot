@@ -1,0 +1,4 @@
+code_coverage:
+  output: spec/coverage
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
