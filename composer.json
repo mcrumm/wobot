@@ -27,7 +27,9 @@
         "symfony/expression-language": "~2.4@stable"
     },
     "suggest": {
-        "monolog/monolog": "to enable wobot logging."
+        "monolog/monolog": "to enable wobot logging.",
+        "symfony/monolog-bridge": "to enable better console logging.",
+        "symfony/expression-language": "to utilize the ExpressionBot."
     },
     "bin": [ "bin/wobot" ],
     "config": {
