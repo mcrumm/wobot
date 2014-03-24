@@ -1,0 +1,5 @@
+/bin/*
+!/bin/wobot
+/vendor/
+composer.lock
+.idea
