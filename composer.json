@@ -1,0 +1,44 @@
+{
+    "name": "mcrumm/wobot",
+    "description": "A generic bot apparatus, heavily inspired by hubot.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Crumm",
+            "email": "mike@crumm.net"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mcrumm/pecan"
+        }
+    ],
+    "require": {
+        "mcrumm/pecan": "~2.0@dev",
+        "pimple/pimple": "2.0.*@dev",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0-dev@dev",
+        "psy/psysh": "~0.1@dev",
+        "henrikbjorn/phpspec-code-coverage" : "1.0.*-dev@dev",
+        "symfony/monolog-bridge": "~2.4",
+        "symfony/expression-language": "~2.4@stable"
+    },
+    "suggest": {
+        "monolog/monolog": "to enable wobot logging.",
+        "symfony/monolog-bridge": "to enable better console logging.",
+        "symfony/expression-language": "to utilize the ExpressionBot."
+    },
+    "bin": [ "bin/wobot" ],
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src"
+        }
+    },
+    "minimum-stability": "stable"
+}

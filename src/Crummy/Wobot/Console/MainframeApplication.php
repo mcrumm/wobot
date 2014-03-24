@@ -2,17 +2,33 @@
 
 namespace Crummy\Wobot\Console;
 
+use Crummy\Wobot\Mainframe;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 
 class MainframeApplication extends BaseApplication
 {
+    private $command;
+
+    /**
+     * Constructor.
+     *
+     * @param Mainframe $mainframe
+     * @param string $version
+     */
+    public function __construct(Mainframe $mainframe, $version = 'UNKNOWN')
+    {
+        $this->command = new WobotCommand($mainframe);
+
+        parent::__construct($mainframe->uname(), $version);
+    }
+
     /**
      * {@inheritDoc}
      */
     protected function getCommandName(InputInterface $input)
     {
-        return $this->getName();
+        return $this->command->getName();
     }
 
     /**
@@ -22,7 +38,7 @@ class MainframeApplication extends BaseApplication
      */
     protected function getDefaultCommands()
     {
-        $defaultCommands = [ new Command() ];
+        $defaultCommands = [ $this->command ];
 
         return $defaultCommands;
     }

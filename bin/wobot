@@ -1,0 +1,45 @@
+#!/usr/bin/env php
+<?php
+
+define('WOBOT_NAME', 'wobot');
+define('WOBOT_VERSION', 'DEV');
+
+if (is_dir($vendor = getcwd() . '/vendor')) {
+    require $vendor . '/autoload.php';
+}
+
+if (is_dir($vendor = __DIR__ . '/../vendor')) {
+    require($vendor . '/autoload.php');
+} elseif (is_dir($vendor = __DIR__ . '/../../..')) {
+    require($vendor . '/autoload.php');
+} else {
+    die(
+        'You must set up the project dependencies, run the following commands:' . PHP_EOL .
+        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+}
+
+use Crummy\Wobot;
+use Crummy\Bots;
+
+// Initialize the Mainframe and load our Bots
+$mainframe  = (new Wobot\Mainframe(WOBOT_NAME))
+    ->loadBot(new Bots\ExpressionBot())
+    ->loadBot(new Bots\TimeBot())
+    ->loadBot(new Bots\FarvaBot())
+;
+
+// Decorate the Mainframe with the Shell Adapter
+$loop   = React\EventLoop\Factory::create();
+$app    = new Wobot\Console\MainframeApplication($mainframe, WOBOT_VERSION);
+$shell  = new Wobot\Adapter\ShellAdapter(new \Pecan\Shell($app), $mainframe);
+
+// Load the Monolog Logger, if available.
+if (class_exists('\\Monolog\\Logger')) {
+    $mainframe->setLogger(new Monolog\Logger(WOBOT_NAME));
+}
+
+$shell->start($loop);
+
+$loop->run();

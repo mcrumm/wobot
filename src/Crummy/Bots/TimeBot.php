@@ -7,26 +7,32 @@ use Crummy\Wobot\Mainframe;
 use Crummy\Wobot\Response;
 
 /**
- * This bot tells time
+ * This bot tells time.
  */
 class TimeBot extends Bot
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __invoke(Response $response)
     {
         $date   = new \DateTime();
         $match  = $response->getMatch();
 
-        $response->send(print_r($match, true));
+        // Get the date format, if provided.
+        $format = isset($match[1]) && !empty($match[1]) ? ltrim($match[1]) : false;
 
-        if (isset($match[1]) && !empty($match[1])) {
-            return $response->send($date->format($match[1]));
-        }
+        // If a format was provided, format the date accordingly.  Otherwise, send the timestamp.
+        $text   = $format ? $date->format($format) : $date->getTimestamp();
 
-        return $response->send($date->getTimestamp());
+        $response->send($text)->finish();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function connect(Mainframe $mainframe)
     {
-        $mainframe->hear('/^time(?:\:?) (.*)$/', $this);
+        $mainframe->hear('/^time(?:\:)?(.*)$/', $this);
     }
 }
