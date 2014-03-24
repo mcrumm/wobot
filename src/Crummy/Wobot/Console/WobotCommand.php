@@ -44,8 +44,6 @@ class WobotCommand extends BaseCommand
     {
         $command = implode(' ', $input->getArgument('command'));
 
-        $output->writeln(sprintf('// in: %s', $command));
-
         $message = new TextMessage(new Context([]), $command);
         $this->mainframe->receive($message);
     }
